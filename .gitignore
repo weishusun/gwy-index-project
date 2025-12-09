@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE cache
+.idea/
+.vscode/
+
+# Virtual environments
+venv/
+env/
+*.env
+
+# Step3 HTML 缓存目录（你的截图文件）
+html_cache_step3/
+
+# Excel 数据文件（你要求不要上传）
+*.xlsx
+*.xls
+
+# Data directories（如有）
+data/raw/
+data/interim/
+data/processed/
+
+# OS files
+.DS_Store
+Thumbs.db

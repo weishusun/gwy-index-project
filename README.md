@@ -1,6 +1,6 @@
 # IACI — Internationalization Capability Index
 
-This repository organizes the research pipeline for building the Internationalization Capability Index (IACI) into a modular Python package.
+This repository contains the research pipeline for computing the Internationalization Capability Index (IACI) for Chinese private universities. The modular implementation lives under `src/iaci_index`, while legacy step scripts are retained for reference under `legacy_scripts/`.
 
 ## Project structure
 ```
@@ -8,51 +8,33 @@ This repository organizes the research pipeline for building the Internationaliz
 │   ├── raw/
 │   ├── interim/
 │   └── processed/
-├── src/
-│   └── iaci_index/
-│       ├── config.py
-│       ├── data_io.py
-│       ├── crawling/
-│       │   ├── step1_school_list.py
-│       │   ├── step2_official_site_search.py
-│       │   ├── step2_extra_info_urls.py
-│       │   ├── step3_metrics_crawler.py
-│       │   └── offline_cache.py
-│       ├── enrichment/
-│       │   ├── kimi_api.py
-│       │   ├── step4_llm_metrics_completion.py
-│       │   └── text_cleaning.py
-│       ├── features/
-│       │   ├── language.py
-│       │   ├── asean.py
-│       │   └── text_intl.py
-│       ├── modeling/
-│       │   ├── pca_model.py
-│       │   └── iaci_composite.py
-│       └── utils/
-│           ├── common.py
-│           └── logging_utils.py
-├── scripts/
-│   ├── run_step1_crawling.py
-│   ├── run_step4_enrichment.py
-│   ├── run_step5_features.py
-│   ├── run_step5_pca.py
-│   ├── run_step5_iaci_4d.py
-│   └── run_full_pipeline.py
-└── environment.yml
+├── src/iaci_index/        # Canonical pipeline modules
+├── scripts/               # Thin entrypoints that call the package
+├── legacy_scripts/        # Archived flat step scripts (no new development)
+├── drivers/               # Selenium drivers
+├── notebooks/             # Exploratory analyses (not the main pipeline)
+├── environment.yml
+└── README.md
 ```
 
-Each module mirrors the original step scripts while exposing clear entry points (e.g., `run_step1`, `run_step2`, `build_lri_features`, `run_pca_for_intl_index`, `compute_iaci_4d`, `prettify_scores`). The behavior, file names, and formulas remain unchanged.
+The package exposes clear functions such as `run_step1`, `run_step2`, `run_step3`, `run_step4`, `build_lri_features`, `build_arii_features`, `build_tli_features`, `run_pca_for_intl_index`, `compute_iaci_4d`, and `prettify_scores`. Formulas, outputs, and filenames match the legacy scripts.
 
-## Running the pipeline
-Install dependencies with Conda:
+## Environment setup
+Create the conda environment and activate it:
 
 ```bash
 conda env create -f environment.yml
 conda activate iaci
 ```
 
-Run individual steps:
+## Running the pipeline
+Official full run:
+
+```bash
+python scripts/run_full_pipeline.py
+```
+
+Individual steps can be invoked as needed:
 
 ```bash
 python scripts/run_step1_crawling.py
@@ -62,13 +44,8 @@ python scripts/run_step5_pca.py
 python scripts/run_step5_iaci_4d.py
 ```
 
-Or execute the full workflow:
-
-```bash
-python scripts/run_full_pipeline.py
-```
-
 ## Notes
+- Notebooks in the root directory are exploratory and are not part of the canonical pipeline.
+- The `legacy_scripts/` directory keeps the old flat step files for archival/reference only; new work should use `scripts/` and `src/iaci_index/`.
 - All outputs retain their original file names (e.g., `step5_A11_IACI_final_4D.xlsx`).
 - API-dependent steps expect the same environment variables as before (e.g., `MOONSHOT_API_KEY`).
-- The modular layout makes it easier to run notebooks or scripts with consistent imports while preserving existing calculations.

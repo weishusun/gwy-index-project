@@ -1,0 +1,13 @@
+name: iaci
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - scikit-learn
+  - openpyxl
+  - requests
+  - selenium
+  - tqdm
+  - jupyter
